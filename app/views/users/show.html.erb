@@ -1,0 +1,33 @@
+<h1><%= @user.name %></h1>
+
+<table>
+  <tr>
+    <th>Attribute</th>
+    <th>Value</th>
+  </tr>
+  <% [:name, :username, :email, :address, :phone, :website, :company].each do |attr_name| %>
+    <tr>
+      <% if attr_name == :address %>
+        <% address = @user.send(attr_name) %>
+        <% addr1 = address["street"] + " " + address["suite"]%>
+        <% addr2 = address["city"] + " " + address["zipcode"]%>
+        <% addr3 = address["geo"]["lat"] + "N, " + address["geo"]["lng"] + "W"%>
+        <td><%= attr_name %></td>
+        <td><%=  addr1 %><br><%= addr2 %><br><%= addr3 %></td>
+      <% elsif attr_name == :company %>
+        <% ["name", "catchPhrase", "bs"].each do |comp_name| %>
+          <tr>
+            <td><%= attr_name.to_s + " " + comp_name %></td>
+            <td><%= @user[attr_name][comp_name] %></td>
+          </tr>
+        <% end %>
+      <% else %>
+        <td><%= attr_name %></td>
+        <td><%= @user.send(attr_name) %></td>
+      <% end %>
+    </tr>
+  <% end %>
+</table>
+
+<br>
+<%= link_to "Back", users_url %>
